@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "mongoose": "^8.6.0",
     "socket.io": "^4.7.5",
