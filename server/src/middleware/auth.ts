@@ -14,8 +14,7 @@ export default async (req:ExpressRequestInterface,res:Response,next:NextFunction
         const token = authHeader.split(" ")[1];
         const data = jwt.verify(token, secret) as {id:string,email:string};
         const user = await UserModel.findById(data.id);
-
-
+        
         if(!user) {
             return res.sendStatus(401);
         }
