@@ -4,7 +4,11 @@ import { secret } from "../config";
 import UserModel from "../models/user";
 import { ExpressRequestInterface } from '../types/expressRequest.interface';
 
-export default async (req:ExpressRequestInterface,res:Response,next:NextFunction) => {
+export default async (
+    req:ExpressRequestInterface,
+    res:Response
+    ,next:NextFunction
+) => {
     try {
         const authHeader = req.headers.authorization;
 
@@ -14,12 +18,12 @@ export default async (req:ExpressRequestInterface,res:Response,next:NextFunction
         const token = authHeader.split(" ")[1];
         const data = jwt.verify(token, secret) as {id:string,email:string};
         const user = await UserModel.findById(data.id);
-        
+
         if(!user) {
             return res.sendStatus(401);
         }
 
-        (req as any).user = user;
+        req.user = user;
         next(user);
     }catch (err) {
         res.sendStatus(401)

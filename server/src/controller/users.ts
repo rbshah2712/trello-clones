@@ -12,9 +12,9 @@ const normalizerUser = (user:UserDocument) => {
         email:user.email,
         username: user.username,
         id:user.id,
-        token
-    }
-}
+        token,
+    };
+};
 
 export const register = async(
     req:Request, 
@@ -27,7 +27,6 @@ export const register = async(
             username: req.body.username,
             password: req.body.password,
         });
-       
         const savedUser =  await newUser.save();
         res.send(normalizerUser(savedUser));
     }catch(err){
@@ -45,7 +44,6 @@ export const register = async(
         res:Response, 
         next:NextFunction
     ) => {
-        let fetchedUser;
         try{
            const user= await UserModel.findOne({email:req.body.email}).select("+password"); 
            const errors = { emailOrPassword: "Incorrect email or password"};
@@ -61,11 +59,7 @@ export const register = async(
             res.send(normalizerUser(user));
           
         }catch(err){
-            if(err instanceof Error.ValidationError) {
-                console.log(err);
-              const messages =Object.values(err.errors).map(err => err.message)
-               return res.status(422).json(messages);
-            }
+           
             next(err);
         }
     
