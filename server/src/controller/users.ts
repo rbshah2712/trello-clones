@@ -4,7 +4,7 @@ import { UserDocument } from "../types/user.interface";
 import { Error} from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { secret } from "../config";
-import { ExpressRequestInterface } from "../types/expressrequest.interface";
+import { ExpressRequestInterface } from "../types/expressRequest.interface";
 
 const normalizerUser = (user:UserDocument) => {
     const token = jwt.sign({id:user.id,email:user.email},secret);
