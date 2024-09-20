@@ -11,7 +11,7 @@ const userSchema = new Schema<UserDocument>({
             createIndexes: {unique: true}
         },
         username: {
-            type:String,
+            type: String,
             required: [true, "Username is required"],
         },
         password: {

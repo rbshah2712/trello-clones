@@ -5,11 +5,13 @@ import mongoose from 'mongoose';
 import * as usersController from "./controller/users";
 import bodyParser from 'body-parser';
 import authMiddleware from './middleware/auth';
+import cors from 'cors';
 
 const app = express(); 
 const httpServer = createServer(app);
 const io = new Server(httpServer);
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
 
