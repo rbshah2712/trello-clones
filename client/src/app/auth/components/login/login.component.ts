@@ -8,11 +8,10 @@ import { AuthService } from '../../services/auth.service';
   selector: 'auth-login',
   templateUrl: './login.component.html',
 })
-export class RegisterComponent {
+export class LoginComponent {
   errorMessage: string | null = null;
   form = this.fb.group({
     email: ['', Validators.required],
-    username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
@@ -23,7 +22,7 @@ export class RegisterComponent {
   ) {}
 
   onSubmit(): void {
-    this.authService.register(this.form.value).subscribe({
+    this.authService.login(this.form.value).subscribe({
       next: (currentUser) => {
         console.log('currentUser', currentUser);
         this.authService.setToken(currentUser);
@@ -33,7 +32,7 @@ export class RegisterComponent {
       },
       error: (err: HttpErrorResponse) => {
         console.log('err', err.error);
-        this.errorMessage = err.error.join(', ');
+        this.errorMessage = err.error.emailOrPassword;
       },
     });
   }
