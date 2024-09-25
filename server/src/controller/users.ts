@@ -12,7 +12,7 @@ const normalizerUser = (user:UserDocument) => {
         email:user.email,
         username: user.username,
         id:user.id,
-        token:`Bearer ${token}`
+        token:`Bearer ${token}`,
     };
 };
 

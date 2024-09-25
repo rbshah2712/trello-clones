@@ -16,6 +16,7 @@ export default async (
            return res.sendStatus(401);
         }
         const token = authHeader.split(" ")[1];
+        console.log(token);
         const data = jwt.verify(token, secret) as {id:string,email:string};
         const user = await UserModel.findById(data.id);
 

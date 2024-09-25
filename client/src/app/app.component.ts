@@ -4,23 +4,20 @@ import { AuthService } from './auth/services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'Trello Application';
-  constructor(private authservice:AuthService){
+  constructor(private authService: AuthService) {}
 
-  }
   ngOnInit(): void {
-      this.authservice.getCurrentUser().subscribe({
-        next: (currentUser) => {
-          this.authservice.setCurrentUser(currentUser);
-        },
-        error:(err) => {
-          console.log('err',err)
-          this.authservice.setCurrentUser(null);
-        }
-        
-      })
+    this.authService.getCurrentUser().subscribe({
+      next: (currentUser) => {
+        console.log(currentUser);
+        this.authService.setCurrentUser(currentUser);
+      },
+      error: (err) => {
+        console.log('err', err);
+        this.authService.setCurrentUser(null);
+      },
+    });
   }
 }
