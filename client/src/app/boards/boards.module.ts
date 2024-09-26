@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { BoardsComponent } from "./components/boards/boards.component";
 import { AuthGuardService } from "../auth/services/authGuard.service";
+import { BoardsService } from "../shared/services/boards.service";
 
 const routes: Routes = [
     {
@@ -13,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
     imports:[RouterModule.forChild(routes)],
-    declarations:[BoardsComponent]
+    declarations:[BoardsComponent],
+    providers:[BoardsService]
 })
 
 export class BoardsModule{}
