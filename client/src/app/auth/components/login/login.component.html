@@ -3,7 +3,7 @@
     <img src="/assets/trello-logo.svg" class="trello-main-logo" />
   </a>
   <div class="form-container">
-    <div class="login-header">Login in to Trello</div>
+    <div class="login-header">Log in to Trello</div>
     <div class="errors" *ngIf="errorMessage">{{ errorMessage }}</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <input
@@ -18,7 +18,7 @@
         placeholder="Password"
         class="login-input"
       />
-      <button type="submit" class="login-submit-button">Login</button>
+      <button type="submit" class="login-submit-button">Sign in</button>
     </form>
     <div class="bottom-form-links">
       <a routerLink="/register" class="register-link">Sign up for an account</a>
