@@ -6,7 +6,7 @@ import * as usersController from "./controllers/users";
 import * as boardsController from "./controllers/boards";
 import * as columnsController from "./controllers/columns";
 import bodyParser from "body-parser";
-import authMiddleware from "./middlewares/auth";
+import authMiddlewares from "./middlewares/auth";
 import cors from "cors";
 import { SocketEventsEnum } from "./types/socketEvents.enum";
 import { getErrorMessage } from "./helpers";
@@ -36,11 +36,11 @@ app.get("/", (req, res) => {
 
 app.post("/api/users", usersController.register);
 app.post("/api/users/login", usersController.login);
-app.get("/api/user", authMiddleware, usersController.currentUser);
-app.get("/api/boards", authMiddleware, boardsController.getBoards);
-app.get("/api/boards/:boardId", authMiddleware, boardsController.getBoard);
-app.get("/api/boards/:boardId/columns", authMiddleware, columnsController.getColumns);
-app.post("/api/boards", authMiddleware, boardsController.createBoard);
+app.get("/api/user", authMiddlewares, usersController.currentUser);
+app.get("/api/boards", authMiddlewares, boardsController.getBoards);
+app.get("/api/boards/:boardId", authMiddlewares, boardsController.getBoard);
+app.get("/api/boards/:boardId/columns", authMiddlewares, columnsController.getColumns);
+app.post("/api/boards", authMiddlewares, boardsController.createBoard);
 
 io.on("connection", (socket) => {
   socket.on(SocketEventsEnum.boardsJoin, (data) => {
@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
     boardsController.leaveBoard(io, socket, data);
   });
 
-  socket.on(SocketEventsEnum.columnsCreate, (data) => {
+  socket.on(SocketEventsEnum.columnsCreate, data => {
     columnsController.createColumn(io, socket, data);
   });
 });
