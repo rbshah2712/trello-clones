@@ -59,7 +59,7 @@ export class BoardComponent implements OnInit {
    this.socketService.emit('columns:create',{
     boardId: this.boardId,
     title:'foo',
-   });
+   });  
   }
-  
+
 }

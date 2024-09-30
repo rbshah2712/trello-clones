@@ -27,6 +27,7 @@ export const createColumn = async (
   socket: Socket,
   data: { boardId: string; title: string }
 ) => {
+  console.log('inside columns create');
   try {
     if (!socket.user) {
       socket.emit(
@@ -40,6 +41,7 @@ export const createColumn = async (
       boardId: data.boardId,
       userId: socket.user.id,
     });
+    console.log('request',newColumn);
     const savedColumn = await newColumn.save();
     io.to(data.boardId).emit(
       SocketEventsEnum.columnsCreateSuccess,
