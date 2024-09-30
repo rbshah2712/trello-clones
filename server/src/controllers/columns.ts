@@ -27,7 +27,7 @@ export const createColumn = async (
   socket: Socket,
   data: { boardId: string; title: string }
 ) => {
-  console.log('inside columns create');
+  
   try {
     if (!socket.user) {
       socket.emit(
