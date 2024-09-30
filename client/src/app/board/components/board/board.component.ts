@@ -12,6 +12,7 @@ import { BoardService } from '../../services/board.service';
   templateUrl: './board.component.html',
 })
 export class BoardComponent implements OnInit {
+
   boardId: string;
   board$: Observable<BoardInterface>;
 
@@ -53,4 +54,12 @@ export class BoardComponent implements OnInit {
       this.boardService.setBoard(board);
     });
   }
+
+  test(): void {
+   this.socketService.emit('columns:create',{
+    boardId: this.boardId,
+    title:'foo',
+   });
+  }
+  
 }
