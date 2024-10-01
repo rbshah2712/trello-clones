@@ -1,4 +1,4 @@
 export interface ColumnInputInterface {
-    title:string;
-    boardId:string;
+  title: string;
+  boardId: string;
 }

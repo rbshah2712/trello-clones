@@ -4,19 +4,19 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ColumnInterface } from '../types/column.interface';
 import { ColumnInputInterface } from '../types/columnInput.interface';
-import { SocketService } from './socket.service';
 import { SocketEventsEnum } from '../types/socketEvents.enum';
+import { SocketService } from './socket.service';
 
 @Injectable()
 export class ColumnsService {
-  constructor(private http: HttpClient, private socketService:SocketService) {}
+  constructor(private http: HttpClient, private socketService: SocketService) {}
 
-  getColumns(boardId:string): Observable<ColumnInterface[]> {
+  getColumns(boardId: string): Observable<ColumnInterface[]> {
     const url = `${environment.apiUrl}/boards/${boardId}/columns`;
     return this.http.get<ColumnInterface[]>(url);
   }
 
-  createColumn(columnInput : ColumnInputInterface) : void {
-    this.socketService.emit(SocketEventsEnum.columnsCreate,columnInput);
+  createColumn(columnInput: ColumnInputInterface): void {
+    this.socketService.emit(SocketEventsEnum.columnsCreate, columnInput);
   }
 }

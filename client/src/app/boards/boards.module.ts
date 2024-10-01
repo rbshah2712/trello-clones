@@ -2,12 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from '../auth/services/authGuard.service';
-import { InlineFormModule } from '../shared/modules/inlineform/inlineform.module';
+import { InlineFormModule } from '../shared/modules/inlineForm/inlineForm.module';
 import {TopbarModule} from '../shared/modules/topbar/topbar.module';
 import { BoardsService } from '../shared/services/boards.service';
 import { BoardsComponent } from './components/boards/boards.component';
-import { ColumnsService } from '../shared/services/columns.service';
-import { TasksService } from '../shared/services/tasks.service';
 
 const routes: Routes = [
   {
@@ -20,6 +18,6 @@ const routes: Routes = [
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes), InlineFormModule, TopbarModule],
   declarations: [BoardsComponent],
-  providers: [BoardsService,ColumnsService,TasksService],
+  providers: [BoardsService],
 })
 export class BoardsModule {}

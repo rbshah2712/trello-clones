@@ -18,11 +18,11 @@ export class BoardService {
     this.board$.next(board);
   }
 
-  setColumns(columns:ColumnInterface[]) : void {
+  setColumns(columns: ColumnInterface[]): void {
     this.columns$.next(columns);
   }
 
-  setTasks(tasks:TaskInterface[]) : void {
+  setTasks(tasks: TaskInterface[]): void {
     this.tasks$.next(tasks);
   }
 
@@ -31,8 +31,10 @@ export class BoardService {
     this.socketService.emit(SocketEventsEnum.boardsLeave, { boardId });
   }
 
-  addColumn(column:ColumnInterface):void {
-    const updatedColumns = [...this.columns$.getValue(),column];
+  addColumn(column: ColumnInterface): void {
+    const updatedColumns = [...this.columns$.getValue(), column];
     this.columns$.next(updatedColumns);
   }
 }
+
+// title, description, userId, columnId, boardId

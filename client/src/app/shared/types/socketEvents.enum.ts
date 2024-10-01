@@ -3,5 +3,5 @@ export enum SocketEventsEnum {
   boardsLeave = 'boards:leave',
   columnsCreate = 'columns:create',
   columnsCreateSuccess = 'columns:createSuccess',
-  columnsCreateFailure = 'columns:createFailure', 
+  columnsCreateFailure = 'columns:createFailure',
 }
