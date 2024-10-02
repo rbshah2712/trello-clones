@@ -10,4 +10,7 @@ export enum SocketEventsEnum {
   boardsUpdate = 'boards:update',
   boardsUpdateSuccess = 'boards:updateSuccess',
   boardsUpdateFailure = 'boards:updateFailure',
+  boardsDelete = 'boards:delete',
+  boardsDeleteSuccess = 'boards:deleteSuccess',
+  boardsDeleteFailure = 'boards:deleteFailure',
 }

@@ -86,6 +86,12 @@ export class BoardComponent implements OnInit {
       .subscribe((updatedBoard) => {
         this.boardService.updateBoard(updatedBoard);
       });
+
+    this.socketService
+      .listen<void>(SocketEventsEnum.boardsDeleteSuccess)
+      .subscribe(() => {
+        this.router.navigateByUrl('/boards');
+      });
   }
 
   fetchData(): void {
@@ -123,5 +129,12 @@ export class BoardComponent implements OnInit {
 
   updateBoardName(boardName: string): void {
     this.boardsService.updateBoard(this.boardId, { title: boardName });
+  }
+
+  deleteBoard(): void {
+    if (confirm('Are you sure you want to delete the board?')) {
+      console.log('here in board component');
+      this.boardsService.deleteBoard(this.boardId);
+    }
   }
 }
