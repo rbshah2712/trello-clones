@@ -48,11 +48,7 @@ app.get(
   authMiddleware,
   columnsController.getColumns
 );
-app.get(
-  "/api/boards/:boardId/tasks",
-  authMiddleware,
-  tasksController.getTasks
-);
+app.get("/api/boards/:boardId/tasks", authMiddleware, tasksController.getTasks);
 app.post("/api/boards", authMiddleware, boardsController.createBoard);
 
 io.use(async (socket: Socket, next) => {
@@ -79,12 +75,15 @@ io.use(async (socket: Socket, next) => {
   socket.on(SocketEventsEnum.boardsLeave, (data) => {
     boardsController.leaveBoard(io, socket, data);
   });
-  socket.on(SocketEventsEnum.columnsCreate, data => {
-    columnsController.createColumn(io, socket, data)
+  socket.on(SocketEventsEnum.columnsCreate, (data) => {
+    columnsController.createColumn(io, socket, data);
   });
-  socket.on(SocketEventsEnum.tasksCreate, data => {
-    tasksController.createTask(io, socket, data)
-  })
+  socket.on(SocketEventsEnum.tasksCreate, (data) => {
+    tasksController.createTask(io, socket, data);
+  });
+  socket.on(SocketEventsEnum.boardsUpdate, (data) => {
+    boardsController.updateBoard(io, socket, data);
+  });
 });
 
 mongoose.connect('mongodb+srv://rsanghvi2712:ueVpNig7Z78tCNfH@cluster0.owsw8yh.mongodb.net/trello').then(() => {

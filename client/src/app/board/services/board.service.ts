@@ -8,6 +8,7 @@ import { TaskInterface } from 'src/app/shared/types/task.interface';
 
 @Injectable()
 export class BoardService {
+ 
   board$ = new BehaviorSubject<BoardInterface | null>(null);
   columns$ = new BehaviorSubject<ColumnInterface[]>([]);
   tasks$ = new BehaviorSubject<TaskInterface[]>([]);
@@ -35,6 +36,20 @@ export class BoardService {
     const updatedColumns = [...this.columns$.getValue(), column];
     this.columns$.next(updatedColumns);
   }
+
+  addTask(task: TaskInterface) : void {
+    const updatedTasks = [...this.tasks$.getValue(), task];
+    this.tasks$.next(updatedTasks);
+  }
+
+  updateBoard(updatedBoard:BoardInterface) : void {
+    const board = this.board$.getValue();
+    if(!board) {
+      throw new Error('Board is not initialized');
+    }
+    this.board$.next({...board,title:updatedBoard.title});
+  }
+
 }
 
 // title, description, userId, columnId, boardId
