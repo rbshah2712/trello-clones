@@ -2,7 +2,7 @@ import { Schema, Document } from "mongoose";
 
 export interface Task {
   title: string;
-  description?: string;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
   userId: Schema.Types.ObjectId;

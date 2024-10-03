@@ -84,11 +84,18 @@ io.use(async (socket: Socket, next) => {
   socket.on(SocketEventsEnum.boardsUpdate, (data) => {
     boardsController.updateBoard(io, socket, data);
   });
+  socket.on(SocketEventsEnum.boardsDelete, (data) => {
+    boardsController.deleteBoard(io, socket, data);
+  });
+
+  socket.on(SocketEventsEnum.columnsDelete, (data) => {
+    columnsController.deleteColumn(io, socket, data);
+  });
 });
 
 mongoose.connect('mongodb+srv://rsanghvi2712:ueVpNig7Z78tCNfH@cluster0.owsw8yh.mongodb.net/trello').then(() => {
-  console.log('connected to mongodb');
-httpServer.listen(4001, () => {
-  console.log(`API is listening on port 4001`);
-});
+  console.log("connected to mongodb");
+  httpServer.listen(4001, () => {
+    console.log(`API is listening on port 4001`);
+  });
 });

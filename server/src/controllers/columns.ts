@@ -27,7 +27,6 @@ export const createColumn = async (
   socket: Socket,
   data: { boardId: string; title: string }
 ) => {
-  
   try {
     if (!socket.user) {
       socket.emit(
@@ -41,7 +40,6 @@ export const createColumn = async (
       boardId: data.boardId,
       userId: socket.user.id,
     });
-    console.log('request',newColumn);
     const savedColumn = await newColumn.save();
     io.to(data.boardId).emit(
       SocketEventsEnum.columnsCreateSuccess,
@@ -50,5 +48,25 @@ export const createColumn = async (
     console.log("savedColumn", savedColumn);
   } catch (err) {
     socket.emit(SocketEventsEnum.columnsCreateFailure, getErrorMessage(err));
+  }
+};
+
+export const deleteColumn = async (
+  io: Server,
+  socket: Socket,
+  data: { boardId: string, columnId: string }
+) => {
+  try {
+    if (!socket.user) {
+      socket.emit(
+        SocketEventsEnum.columnsDeleteFailure,
+        "User is not authorized"
+      );
+      return;
+    }
+    await ColumnModel.deleteOne({ _id: data.columnId,boardId: data.boardId });
+    io.to(data.boardId).emit(SocketEventsEnum.columnsDeleteSuccess,data.columnId);
+  } catch (err) {
+    socket.emit(SocketEventsEnum.columnsDeleteFailure, getErrorMessage(err));
   }
 };

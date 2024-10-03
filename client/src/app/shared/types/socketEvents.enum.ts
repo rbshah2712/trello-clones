@@ -13,4 +13,7 @@ export enum SocketEventsEnum {
   boardsDelete = 'boards:delete',
   boardsDeleteSuccess = 'boards:deleteSuccess',
   boardsDeleteFailure = 'boards:deleteFailure',
+  columnsDelete = "columns:delete",
+  columnsDeleteSuccess = "columns:deleteSuccess",
+  columnsDeleteFailure = "columns:deleteFailure",
 }

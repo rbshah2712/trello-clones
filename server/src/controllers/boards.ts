@@ -63,7 +63,7 @@ export const joinBoard = (
   socket: Socket,
   data: { boardId: string }
 ) => {
-  console.log("server socket io join", data.boardId);
+  console.log("server socket io join", socket.user);
   socket.join(data.boardId);
 };
 
@@ -79,23 +79,28 @@ export const leaveBoard = (
 export const updateBoard = async (
   io: Server,
   socket: Socket,
-  data: { boardId: string,fields: {title: string } }
+  data: { boardId: string; fields: { title: string } }
 ) => {
-   try {
-      if(!socket.user) {
-        socket.emit(SocketEventsEnum.boardsUpdateFailure,
-          "User is not authorized"
-        );
-        return;
-      }
-      const updatedBoard = await BoardModel.findByIdAndUpdate(data.boardId,data.fields,{new : true});
-      io.to(data.boardId).emit(
-        SocketEventsEnum.boardsUpdateSuccess,
-        updatedBoard
+  try {
+    if (!socket.user) {
+      socket.emit(
+        SocketEventsEnum.boardsUpdateFailure,
+        "User is not authorized"
       );
-   }catch (err) {
-    socket.emit(SocketEventsEnum.boardsUpdateFailure,getErrorMessage(err));
-   }
+      return;
+    }
+    const updatedBoard = await BoardModel.findByIdAndUpdate(
+      data.boardId,
+      data.fields,
+      { new: true }
+    );
+    io.to(data.boardId).emit(
+      SocketEventsEnum.boardsUpdateSuccess,
+      updatedBoard
+    );
+  } catch (err) {
+    socket.emit(SocketEventsEnum.boardsUpdateFailure, getErrorMessage(err));
+  }
 };
 
 export const deleteBoard = async (
@@ -103,16 +108,17 @@ export const deleteBoard = async (
   socket: Socket,
   data: { boardId: string }
 ) => {
-   try {
-      if(!socket.user) {
-        socket.emit(SocketEventsEnum.boardsDeleteFailure,
-          "User is not authorized"
-        );
-        return;
-      }
-      await BoardModel.deleteOne({_id: data.boardId});
-      io.to(data.boardId).emit(SocketEventsEnum.boardsDeleteSuccess);
-   }catch (err) {
-    socket.emit(SocketEventsEnum.boardsDeleteFailure,getErrorMessage(err));
-   }
+  try {
+    if (!socket.user) {
+      socket.emit(
+        SocketEventsEnum.boardsDeleteFailure,
+        "User is not authorized"
+      );
+      return;
+    }
+    await BoardModel.deleteOne({ _id: data.boardId });
+    io.to(data.boardId).emit(SocketEventsEnum.boardsDeleteSuccess);
+  } catch (err) {
+    socket.emit(SocketEventsEnum.boardsDeleteFailure, getErrorMessage(err));
+  }
 };

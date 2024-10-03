@@ -30,7 +30,6 @@ export class BoardsService {
   }
 
   deleteBoard(boardId: string): void {
-    console.log('here in boards service');
     this.socketService.emit(SocketEventsEnum.boardsDelete, { boardId });
   }
 }

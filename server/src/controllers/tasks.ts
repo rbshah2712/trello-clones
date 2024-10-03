@@ -25,13 +25,16 @@ export const getTasks = async (
 export const createTask = async (
   io: Server,
   socket: Socket,
-  data: { boardId: string, columnId: string, title: string }
+  data: {
+    boardId: string;
+    title: string;
+    columnId: string;
+  }
 ) => {
- 
   try {
     if (!socket.user) {
       socket.emit(
-        SocketEventsEnum.tasksCreateFailure,
+        SocketEventsEnum.columnsCreateFailure,
         "User is not authorized"
       );
       return;
@@ -40,14 +43,10 @@ export const createTask = async (
       title: data.title,
       boardId: data.boardId,
       userId: socket.user.id,
-      columnId:data.columnId,
+      columnId: data.columnId,
     });
-    console.log('request',newTask);
     const savedTask = await newTask.save();
-    io.to(data.boardId).emit(
-      SocketEventsEnum.tasksCreateSuccess,
-      savedTask
-    );
+    io.to(data.boardId).emit(SocketEventsEnum.tasksCreateSuccess, savedTask);
     console.log("savedTask", savedTask);
   } catch (err) {
     socket.emit(SocketEventsEnum.tasksCreateFailure, getErrorMessage(err));
