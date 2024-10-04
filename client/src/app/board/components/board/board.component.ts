@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { combineLatest, filter, map, Observable } from 'rxjs';
+import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { BoardsService } from 'src/app/shared/services/boards.service';
 import { ColumnsService } from 'src/app/shared/services/columns.service';
 import { SocketService } from 'src/app/shared/services/socket.service';
@@ -17,13 +17,15 @@ import { BoardService } from '../../services/board.service';
   selector: 'board',
   templateUrl: './board.component.html',
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
   boardId: string;
   data$: Observable<{
     board: BoardInterface;
     columns: ColumnInterface[];
     tasks: TaskInterface[];
   }>;
+
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private boardsService: BoardsService,
@@ -62,48 +64,65 @@ export class BoardComponent implements OnInit {
     this.initializeListeners();
   }
 
+  ngOnDestroy(): void {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
+  }
+
   initializeListeners(): void {
     this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
+      if (event instanceof NavigationStart && !event.url.includes('/boards/')) {
         this.boardService.leaveBoard(this.boardId);
       }
     });
 
     this.socketService
       .listen<ColumnInterface>(SocketEventsEnum.columnsCreateSuccess)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((column) => {
         this.boardService.addColumn(column);
       });
 
       this.socketService
       .listen<string>(SocketEventsEnum.columnsDeleteSuccess)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((columnId) => {
         this.boardService.deleteColumn(columnId);
       });
 
     this.socketService
       .listen<TaskInterface>(SocketEventsEnum.tasksCreateSuccess)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((task) => {
         this.boardService.addTask(task);
       });
 
     this.socketService
       .listen<BoardInterface>(SocketEventsEnum.boardsUpdateSuccess)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe((updatedBoard) => {
         this.boardService.updateBoard(updatedBoard);
       });
 
     this.socketService
       .listen<void>(SocketEventsEnum.boardsDeleteSuccess)
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(() => {
         this.router.navigateByUrl('/boards');
       });
+
+    this.socketService
+    .listen<ColumnInterface>(SocketEventsEnum.columnsUpdateSuccess)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((updatedColumn) => {
+      this.boardService.updateColumn(updatedColumn);
+    });
 
       
   }
 
   fetchData(): void {
-    this.boardsService.getBoard(this.boardId).subscribe((board) => {
+     this.boardsService.getBoard(this.boardId).subscribe((board) => {
       this.boardService.setBoard(board);
     });
     this.columnsService.getColumns(this.boardId).subscribe((columns) => {
@@ -149,5 +168,13 @@ export class BoardComponent implements OnInit {
     if (confirm('Are you sure you want to delete the column?')) {
       this.columnsService.deleteColumn(this.boardId,columnId);
     }
+  }
+
+  updateColumnName(columnName:string,columnId:string): void {
+    this.columnsService.updateColumn(this.boardId,columnId,{ title: columnName });
+  }
+
+  openTask(taskId: string) {
+    this.router.navigate(['boards',this.boardId,'tasks',taskId]);
   }
 }

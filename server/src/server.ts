@@ -91,6 +91,14 @@ io.use(async (socket: Socket, next) => {
   socket.on(SocketEventsEnum.columnsDelete, (data) => {
     columnsController.deleteColumn(io, socket, data);
   });
+
+  socket.on(SocketEventsEnum.columnsUpdate, (data) => {
+    columnsController.updateColumn(io, socket, data);
+  });
+
+  socket.on(SocketEventsEnum.tasksUpdate, (data) => {
+    tasksController.updateTask(io, socket, data);
+  });
 });
 
 mongoose.connect('mongodb+srv://rsanghvi2712:ueVpNig7Z78tCNfH@cluster0.owsw8yh.mongodb.net/trello').then(() => {

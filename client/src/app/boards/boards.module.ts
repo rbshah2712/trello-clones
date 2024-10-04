@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from '../auth/services/authGuard.service';
-import { InlineFormModule } from '../shared/modules/inlineForm/inlineForm.module';
+import { InlineFormModule } from '../shared/modules/inlineform/inlineForm.module';
 import {TopbarModule} from '../shared/modules/topbar/topbar.module';
 import { BoardsService } from '../shared/services/boards.service';
 import { BoardsComponent } from './components/boards/boards.component';
