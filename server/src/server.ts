@@ -92,6 +92,10 @@ io.use(async (socket: Socket, next) => {
     columnsController.deleteColumn(io, socket, data);
   });
 
+  socket.on(SocketEventsEnum.tasksDelete, (data) => {
+    tasksController.deleteTask(io, socket, data);
+  });
+
   socket.on(SocketEventsEnum.columnsUpdate, (data) => {
     columnsController.updateColumn(io, socket, data);
   });

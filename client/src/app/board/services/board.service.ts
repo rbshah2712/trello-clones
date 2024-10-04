@@ -62,11 +62,10 @@ export class BoardService {
   }
 
   deleteColumn(columnId:string): void {
-    const updatedColumns =  this.columns$.getValue().filter(column => column.id  !== columnId);
+    const updatedColumns =  this.columns$.getValue().filter((column) => column.id  !== columnId);
     this.columns$.next(updatedColumns);
   
   }
-
 
   updateTask(updatedTask:TaskInterface): void {
     const updatedTasks = this.tasks$.getValue().map(task => {
@@ -75,9 +74,12 @@ export class BoardService {
         }
         return task;
     });
-
     this.tasks$.next(updatedTasks);
-    
+  }
+
+  deleteTask(taskId:string): void {
+    const updatedTasks =  this.tasks$.getValue().filter((task) => task.id  !== taskId);
+    this.tasks$.next(updatedTasks);
   }
 
 }
