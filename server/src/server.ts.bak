@@ -110,6 +110,6 @@ const port = process.env.PORT || 3000;
 mongoose.connect('mongodb+srv://rsanghvi2712:ueVpNig7Z78tCNfH@cluster0.owsw8yh.mongodb.net/trello').then(() => {
   console.log("connected to mongodb");
   httpServer.listen(port, () => {
-    console.log(`API is listening on port`,port);
+    console.log(`API is listening on port 4001`);
   });
 });
