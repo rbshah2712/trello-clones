@@ -104,7 +104,7 @@ io.use(async (socket: Socket, next) => {
     tasksController.updateTask(io, socket, data);
   });
 });
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 
 mongoose.connect('mongodb+srv://rsanghvi2712:ueVpNig7Z78tCNfH@cluster0.owsw8yh.mongodb.net/trello').then(() => {
